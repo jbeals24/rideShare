@@ -14,6 +14,11 @@
     <v-btn v-if="!isLoggedIn" text v-bind:to="{ name: 'sign-in' }">
       Sign In
     </v-btn>
+    <v-btn v-if="isLoggedIn" text v-bind:to="{ name: 'grab-ride' }">
+      Grab a Ride
+    </v-btn>
+
+
 
     <v-btn text v-bind:to="{ name: 'about-us' }">About Us</v-btn>
 

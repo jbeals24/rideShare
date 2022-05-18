@@ -47,7 +47,7 @@ export default {
         { text: "Last", value: "lastName" },
         { text: "Action", value: "action" }
       ],
-      accounts: [],
+      users: [],
 
       snackbar: {
         show: false,

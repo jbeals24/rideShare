@@ -89,6 +89,43 @@ async function init() {
     },
 
     {
+      method: "POST",
+      path: "/ride",
+      config: {
+        description: "Ask for a ride",
+        validate: {
+          payload: Joi.object({
+            date: Joi.date().required(),
+            time: Joi.any().required(),
+            locationAddress: Joi.string().required(),
+            destinationAddress: Joi.string().required(),
+          }),
+        },
+      },
+      handler: async (request, h) => {
+        const newRide = await Ride.query().insert({
+          date: request.payload.date,
+          time: request.payload.time,
+          //email: request.payload.email,
+          //password: request.payload.password,
+        });
+
+        if (newRide) {
+          return {
+            ok: true,
+            msge: `Created Ride '${request.payload.date}'`,
+          };
+        } else {
+          return {
+            ok: false,
+            msge: `Couldn't complete ride with information given '${request.payload.date}'`,
+          };
+        }
+      },
+	
+    },
+
+    {
       method: "GET",
       path: "/users",
       config: {
