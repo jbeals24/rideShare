@@ -61,7 +61,7 @@
 
 <script>
 import Instructions from "../components/Instructions.vue";
-
+//const ridesMade = 0;
 export default {
   name: "RidePage",
   components: {
@@ -87,13 +87,8 @@ export default {
       dialogText: "<no dialogText>",
       dialogVisible: false,
 
-      // Validation rules for the form fields. This functionality is an extension
-      // that's part of the Vuetify package. Each rule is a list of functions
-      // (note the fat arrows). Vuetify invokes all functions in the list,
-      // passing it the content of the associated form field. Functions should
-      // return either true (the field passes that validation) or a string
-      // containing an error message indicating why the field doesn't pass validation.
-      rules: {
+      //rule stuff
+       rules: {
         required: [(val) => val.length > 0 || "Required"],
         email: [
           (val) => /\w{3,}@\w{3,}(?:.\w{3,})+$/.test(val) || "Invalid e-mail",
@@ -115,18 +110,18 @@ export default {
 
       // Post the content of the form to the Hapi server.
       this.$axios
-        .post("/users", {
-          firstName: this.newMember.firstName,
-          lastName: this.newMember.lastName,
-          email: this.newMember.email,
-          password: this.newMember.password,
+        .post("/ride", {
+          date: this.newMember.date,
+          time: this.newMember.time,
+          locationAddress: this.newMember.locationAddress,
+          destinationAddress: this.newMember.destinationAddress,
         })
         .then((result) => {
           // Based on whether things worked or not, show the
           // appropriate dialog.
           if (result.data.ok) {
             this.showDialog("Success", result.data.msge);
-            this.userCreated = true;
+            this.rideCreated = true;
           } else {
             this.showDialog("Sorry", result.data.msge);
           }
@@ -145,7 +140,7 @@ export default {
     // and navigate to the home page.
     hideDialog: function () {
       this.dialogVisible = false;
-      if (this.userCreated) {
+      if (this.rideCreated) {
         // Only navigate away from the sign-up page if we were successful.
         this.$router.push({ name: "home-page" });
       }

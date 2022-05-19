@@ -1,5 +1,5 @@
 const {Model} = require('objection');
-const {knex} = require('../db.js');
+const {knex} = require('../hapi-server.js');
 const {State} = require('../models/state.js');
 const {Vehicle} = require('../models/vehicle.js');
 

@@ -15,6 +15,8 @@ objection.Model.knex(knex);
 
 // Models
 const User = require("./models/User");
+const Ride = require("./models/Ride");
+const Location = require("./models/Location")
 
 // Hapi
 const Joi = require("@hapi/joi"); // Input validation
@@ -103,12 +105,22 @@ async function init() {
         },
       },
       handler: async (request, h) => {
-        const newRide = await Ride.query().insert({
-          date: request.payload.date,
-          time: request.payload.time,
-          //email: request.payload.email,
-          //password: request.payload.password,
-        });
+	const newLocation = await Location.query()
+	  .insert({
+		address: request.payload.locationAddress,
+	  })
+        const newRide = await Ride.query()
+	  .insert({
+          	date: request.payload.date,
+          	time: request.payload.time,
+		//name: request.payload.locationAddress,
+
+       	  });
+        //const newLocations = await Location.query().insert({
+	//	locationAddress: Joi.string().required(),
+	//	destinationAddress: Joi.string().required,
+		
+			      
 
         if (newRide) {
           return {
@@ -127,6 +139,45 @@ async function init() {
 
     {
       method: "GET",
+      path: "/ride",
+      config: {
+        description: "Retrieve all rides",
+      },
+      handler: (request, h) => {
+        return Ride.query();
+      },
+ 
+    },
+
+    {
+      method: "GET",
+      path: "/rides",
+      config: {
+        description: "Retrieve all rides",
+      },
+      handler: (request, h) => {
+        return Ride.query().orderBy('id','desc').limit(1);
+
+      },
+
+    },
+
+
+    {
+      method: "GET",
+      path: "/location",
+      config: {
+        description: "Retrieve all locations",
+      },
+      handler: (request, h) => {
+        return Location.query();
+      },
+
+     },
+
+
+    {
+      method: "GET",
       path: "/users",
       config: {
         description: "Retrieve all users",
@@ -135,7 +186,7 @@ async function init() {
         return User.query();
       },
     },
-//
+
     {
       method: "DELETE",
       path: "/users/{id}",
